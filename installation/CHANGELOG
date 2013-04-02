@@ -26,7 +26,43 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-09-February-2013 Michael Babker
+28-Mar-2013 Jean-Marie Simonet
+ # *Multilanguage 2.5: SIngle article display does not filter correctly author contact per language.
+ # [#29417] sendMail automatically adds sender as replyTo. Thanks Roberto.
+ 
+24-Mar-2013 Michael Babker
+ # [#28978] Smart search (com_finder) - problem when using "Allow Empty Search".  Thanks Valentin
+
+21-Mar-2013 Jean-Marie Simonet
+# [#30346] *Contact creator does not include default language "All" for the contact created
+
+20-Mar-2013 Jean-Marie Simonet
+ # [#29982] Cant add fields to the category form using a plugin. Thanks Parth
+
+18-Mar-2013 Jean-Marie Simonet
+ # [#26860] A Contact name *must not* be unique. Thanks Christophe
+ $ Updating Swahili intallation ini file
+
+17-Mar-2013 Jean-Marie Simonet
+ #+ [#29677] robots.txt in updates. Thanks Mark
+ + [#29294] Show Correct Meta Titles in Joomla Admin for better usability. Thanks Parth
+ # [#29810] File deletion issue. Thanks Elin
+ # [#30312] *Porting to 2.5.x a 3.x improvement in languagefilter
+
+16-Mar-2013 Michael Babker
+ # [#30249] Show Intro Text = Hide currently has no effect in Featured and Category menu items.  Thanks Matt
+
+16-Mar-2013 Jean-Marie Simonet
+ +$ [#27945] Hide Subcategories text. Thanks Aka.
+
+05-Mar-2013 Jean-Marie Simonet
+ + [#29769] com_config component missing triggers on save. Thanks Nicholas Antimisiaris
+
+28-Feb-2013 Jean-Marie Simonet
+ # [#30100] Plugins ordering broken when search filter is populated. Thanks Jurian
+ # [#29968] Only text gets passed to content events in blog view (for Joomla 2.5.x). Thanks Jonathan.
+
+09-Feb-2013 Michael Babker
  # [#29970] Robots.txt check url no more working.  Thanks Brian
 
 -------------------- 2.5.9 Stable Release [4-February-2013] ------------------
