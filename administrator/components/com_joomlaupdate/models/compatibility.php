@@ -101,6 +101,15 @@ class JoomlaupdateModelCompatibility extends JModelLegacy
 						$current_version = PHP_VERSION;
 						$compatible_found = $compatiblity->check($current_version, $with);
 						break;
+					case 'mysql':
+						$current_version = JDatabase::getVersion();
+						$compatible_found = $compatiblity->check($current_version, $with);
+					case 'postgresql':
+						$current_version = JDatabase::getVersion();
+						$compatible_found = $compatiblity->check($current_version, $with);
+					case 'sqlazure':
+						$current_version = JDatabase::getVersion();
+						$compatible_found = $compatiblity->check($current_version, $with);
 					default:
 						$extensionInfo = JTable::getInstance('extension');
 						$extensionInfo->load( $extensionInfo->find(array('element' => (string)$with)) );
