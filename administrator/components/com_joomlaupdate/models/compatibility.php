@@ -102,14 +102,50 @@ class JoomlaupdateModelCompatibility extends JModelLegacy
 						$compatible_found = $compatiblity->check($current_version, $with);
 						break;
 					case 'mysql':
-						$current_version = JDatabase::getVersion();
-						$compatible_found = $compatiblity->check($current_version, $with);
+						$db = JFactory::getDbo();
+						$connectors = $db->getConnectors();
+						foreach ($connectors as $connector)
+						{
+							if($connector === $with)
+							{
+								$current_version = $db->getVersion();
+								$compatible_found = $compatiblity->check($current_version, $with);
+								break;
+							}
+						}
+						// Connector doesn't exist therefore mark as true
+						$compatible_found = true;
+						break;
 					case 'postgresql':
-						$current_version = JDatabase::getVersion();
-						$compatible_found = $compatiblity->check($current_version, $with);
+						$db = JFactory::getDbo();
+						$connectors = $db->getConnectors();
+						foreach ($connectors as $connector)
+						{
+							if($connector === $with)
+							{
+								$current_version = $db->getVersion();
+								$compatible_found = $compatiblity->check($current_version, $with);
+								break;
+							}
+						}
+						// Connector doesn't exist therefore mark as true
+						$compatible_found = true;
+						break;
 					case 'sqlazure':
-						$current_version = JDatabase::getVersion();
-						$compatible_found = $compatiblity->check($current_version, $with);
+						$db = JFactory::getDbo();
+						$connectors = $db->getConnectors();
+						foreach ($connectors as $connector)
+						{
+							if($connector === $with)
+							{
+								$current_version = $db->getVersion();
+								$compatible_found = $compatiblity->check($current_version, $with);
+								break;
+							}
+						}
+						// Connector doesn't exist therefore mark as true
+						$compatible_found = true;
+						break;
 					default:
 						$extensionInfo = JTable::getInstance('extension');
 						$extensionInfo->load( $extensionInfo->find(array('element' => (string)$with)) );
