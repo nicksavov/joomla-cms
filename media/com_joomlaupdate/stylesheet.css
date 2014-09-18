@@ -236,6 +236,9 @@
 	background-color: #F89406;
 	border:1px solid #D24724;
 }
+button[disabled=disabled], button:disabled {
+    cursor: default !important;
+}
 .joomla_check #dontrecom{
 	display:none;
 	color: #FF0000;
