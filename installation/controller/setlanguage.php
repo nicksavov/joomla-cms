@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class InstallationControllerSetlanguage extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
@@ -55,8 +55,8 @@ class InstallationControllerSetlanguage extends JControllerBase
 		$model = new InstallationModelSetup;
 
 		// Get the posted values from the request and validate them.
-		$data = $this->input->post->get('jform', array(), 'array');
-		$return	= $model->validate($data, 'preinstall');
+		$data   = $this->input->post->get('jform', array(), 'array');
+		$return = $model->validate($data, 'preinstall');
 
 		$r = new stdClass;
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPicasaPhoto extends JGoogleData
 {
@@ -77,7 +78,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new RuntimeException("Etag match failed: `$match`.", $e->getCode(), $e);
 				}
 
 				throw $e;
@@ -129,7 +130,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @since   12.3
 	 */
-	public function getURL()
+	public function getUrl()
 	{
 		return (string) $this->xml->children()->content->attributes()->src;
 	}
@@ -328,19 +329,19 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			try
 			{
 				$headers = array('GData-Version' => 2, 'Content-type' => 'application/atom+xml', 'If-Match' => $match);
-				$jdata = $this->query($url, $this->xml->asXML(), $headers, 'put');
+				$jdata = $this->query($url, $this->xml->asXml(), $headers, 'put');
 			}
 			catch (Exception $e)
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new RuntimeException("Etag match failed: `$match`.", $e->getCode(), $e);
 				}
 
 				throw $e;
 			}
 
-			$this->xml = $this->safeXML($jdata->body);
+			$this->xml = $this->safeXml($jdata->body);
 
 			return $this;
 		}
@@ -363,7 +364,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 		{
 			$url = $this->getLink();
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
-			$this->xml = $this->safeXML($jdata->body);
+			$this->xml = $this->safeXml($jdata->body);
 
 			return $this;
 		}

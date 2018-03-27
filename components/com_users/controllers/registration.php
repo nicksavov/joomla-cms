@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/controller.php';
+JLoader::register('UsersController', JPATH_COMPONENT . '/controller.php');
 
 /**
  * Registration controller class for Users.
@@ -64,8 +64,8 @@ class UsersControllerRegistration extends UsersController
 		// Check for errors.
 		if ($return === false)
 		{
-			// Redirect back to the homepage.
-			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
+			// Redirect back to the home page.
+			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect('index.php');
 
 			return false;
@@ -108,7 +108,7 @@ class UsersControllerRegistration extends UsersController
 	public function register()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// If registration is disabled - Redirect to login page.
 		if (JComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0)
@@ -118,14 +118,14 @@ class UsersControllerRegistration extends UsersController
 			return false;
 		}
 
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Registration', 'UsersModel');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel('Registration', 'UsersModel');
 
 		// Get the user data.
 		$requestData = $this->input->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
-		$form	= $model->getForm();
+		$form = $model->getForm();
 
 		if (!$form)
 		{
@@ -134,24 +134,24 @@ class UsersControllerRegistration extends UsersController
 			return false;
 		}
 
-		$data	= $model->validate($form, $requestData);
+		$data = $model->validate($form, $requestData);
 
 		// Check for validation errors.
 		if ($data === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$app->enqueueMessage($errors[$i]->getMessage(), 'error');
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'warning');
+					$app->enqueueMessage($errors[$i], 'error');
 				}
 			}
 
@@ -165,7 +165,7 @@ class UsersControllerRegistration extends UsersController
 		}
 
 		// Attempt to save the data.
-		$return	= $model->register($data);
+		$return = $model->register($data);
 
 		// Check for errors.
 		if ($return === false)
@@ -174,7 +174,7 @@ class UsersControllerRegistration extends UsersController
 			$app->setUserState('com_users.registration.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage($model->getError(), 'warning');
+			$this->setMessage($model->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
 
 			return false;

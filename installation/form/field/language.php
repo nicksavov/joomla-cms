@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Language Form Field class.
+ * Installation Language field.
  *
  * @since  1.6
  */
@@ -20,8 +20,8 @@ class InstallationFormFieldLanguage extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'Language';
 
@@ -65,11 +65,11 @@ class InstallationFormFieldLanguage extends JFormFieldList
 		$options = JLanguageHelper::createLanguageList($native);
 
 		// Fix wrongly set parentheses in RTL languages
-		if (JFactory::getLanguage()->isRTL())
+		if (JFactory::getLanguage()->isRtl())
 		{
 			foreach ($options as &$option)
 			{
-				$option['text'] = $option['text'] . '&#x200E;';
+				$option['text'] .= '&#x200E;';
 			}
 		}
 

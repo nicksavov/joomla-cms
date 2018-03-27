@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * GitHub API object class for the Joomla Platform.
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 abstract class JGithubObject
 {
@@ -72,12 +73,16 @@ abstract class JGithubObject
 			// Use basic authentication
 			if ($this->options->get('api.username', false))
 			{
-				$uri->setUser($this->options->get('api.username'));
+				$username = $this->options->get('api.username');
+				$username = str_replace('@', '%40', $username);
+				$uri->setUser($username);
 			}
 
 			if ($this->options->get('api.password', false))
 			{
-				$uri->setPass($this->options->get('api.password'));
+				$password = $this->options->get('api.password');
+				$password = str_replace('@', '%40', $password);
+				$uri->setPass($password);
 			}
 		}
 

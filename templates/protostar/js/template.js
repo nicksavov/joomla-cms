@@ -1,7 +1,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.2
  */
@@ -10,10 +10,11 @@
 {
 	$(document).ready(function()
 	{
-		$('*[rel=tooltip]').tooltip()
+		$('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
+
 		$(".btn-group label:not(.active)").click(function()
 		{
 			var label = $(this);
@@ -29,6 +30,7 @@
 					label.addClass('active btn-success');
 				}
 				input.prop('checked', true);
+				input.trigger('change');
 			}
 		});
 		$(".btn-group input[checked=checked]").each(function()
@@ -40,6 +42,11 @@
 			} else {
 				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
 			}
+		});
+		
+		$('#back-top').on('click', function(e) {
+			e.preventDefault();
+			$("html, body").animate({scrollTop: 0}, 1000);
 		});
 	})
 })(jQuery);

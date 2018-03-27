@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@ class ModStatsHelper
 			$i++;
 
 			$rows[$i]        = new stdClass;
-			$rows[$i]->title = JTEXT::_('MOD_STATS_TIME');
+			$rows[$i]->title = JText::_('MOD_STATS_TIME');
 			$rows[$i]->icon  = 'clock';
 			$rows[$i]->data  = JHtml::_('date', 'now', 'H:i');
 			$i++;
@@ -83,14 +83,30 @@ class ModStatsHelper
 			$query->select('COUNT(id) AS count_users')
 				->from('#__users');
 			$db->setQuery($query);
-			$users = $db->loadResult();
+
+			try
+			{
+				$users = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$users = false;
+			}
 
 			$query->clear()
 				->select('COUNT(id) AS count_items')
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
-			$items = $db->loadResult();
+
+			try
+			{
+				$items = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$items = false;
+			}
 
 			if ($users)
 			{
@@ -109,25 +125,6 @@ class ModStatsHelper
 				$rows[$i]->data  = $items;
 				$i++;
 			}
-
-			if (JComponentHelper::isInstalled('com_weblinks'))
-			{
-				$query->clear()
-					->select('COUNT(id) AS count_links')
-					->from('#__weblinks')
-					->where('state = 1');
-				$db->setQuery($query);
-				$links = $db->loadResult();
-
-				if ($links)
-				{
-					$rows[$i]        = new stdClass;
-					$rows[$i]->title = JText::_('MOD_STATS_WEBLINKS');
-					$rows[$i]->icon  = 'out-2';
-					$rows[$i]->data  = $links;
-					$i++;
-				}
-			}
 		}
 
 		if ($counter)
@@ -137,14 +134,45 @@ class ModStatsHelper
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
-			$hits = $db->loadResult();
+
+			try
+			{
+				$hits = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$hits = false;
+			}
 
 			if ($hits)
 			{
 				$rows[$i]        = new stdClass;
 				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->icon  = 'eye';
-				$rows[$i]->data  = $hits + $increase;
+				$rows[$i]->data  = number_format($hits + $increase, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'));
+				$i++;
+			}
+		}
+
+		// Include additional data defined by published system plugins
+		JPluginHelper::importPlugin('system');
+
+		$app    = JFactory::getApplication();
+		$arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats_admin'));
+
+		foreach ($arrays as $response)
+		{
+			foreach ($response as $row)
+			{
+				// We only add a row if the title and data are given
+				if (isset($row['title']) && isset($row['data']))
+				{
+					$rows[$i]        = new stdClass;
+					$rows[$i]->title = $row['title'];
+					$rows[$i]->icon  = isset($row['icon']) ? $row['icon'] : 'info';
+					$rows[$i]->data  = $row['data'];
+					$i++;
+				}
 			}
 		}
 

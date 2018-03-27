@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPicasa extends JGoogleData
 {
@@ -52,7 +53,7 @@ class JGoogleDataPicasa extends JGoogleData
 		{
 			$url = 'https://picasaweb.google.com/data/feed/api/user/' . urlencode($userID);
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
-			$xml = $this->safeXML($jdata->body);
+			$xml = $this->safeXml($jdata->body);
 
 			if (isset($xml->children()->entry))
 			{
@@ -111,9 +112,9 @@ class JGoogleDataPicasa extends JGoogleData
 			$cat->addAttribute('term', 'http://schemas.google.com/photos/2007#album');
 
 			$url = 'https://picasaweb.google.com/data/feed/api/user/' . urlencode($userID);
-			$jdata = $this->query($url, $xml->asXML(), array('GData-Version' => 2, 'Content-type' => 'application/atom+xml'), 'post');
+			$jdata = $this->query($url, $xml->asXml(), array('GData-Version' => 2, 'Content-type' => 'application/atom+xml'), 'post');
 
-			$xml = $this->safeXML($jdata->body);
+			$xml = $this->safeXml($jdata->body);
 
 			return new JGoogleDataPicasaAlbum($xml, $this->options, $this->auth);
 		}
@@ -138,7 +139,7 @@ class JGoogleDataPicasa extends JGoogleData
 		if ($this->isAuthenticated())
 		{
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
-			$xml = $this->safeXML($jdata->body);
+			$xml = $this->safeXml($jdata->body);
 
 			return new JGoogleDataPicasaAlbum($xml, $this->options, $this->auth);
 		}
